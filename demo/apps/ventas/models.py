@@ -1,15 +1,6 @@
 from django.db import models
-
-
-
-class cliente(models.Model):
-    nombre		= models.CharField(max_length=200)
-    apellidos	= models.CharField(max_length=200)
-    status		= models.BooleanField(default=True)
-
-    def __unicode__(self):
-        nombreCompleto = "%s %s"%(self.nombre,self.apellidos)
-        return nombreCompleto
+from demo.apps.home.models import Cliente
+from django.conf import settings
 
 class categoriaProducto(models.Model):
     nombre 	= models.CharField(max_length=200)
@@ -39,7 +30,7 @@ class producto(models.Model):
 
 class Factura(models.Model):
     total = models.IntegerField()
-    comprador = models.ForeignKey(cliente)
+    comprador = models.ForeignKey(settings.AUTH_USER_MODEL)
     producto_comprado = models.ForeignKey(producto)
     fecha = models.DateField()
     def __unicode__(self):

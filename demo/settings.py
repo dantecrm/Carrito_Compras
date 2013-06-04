@@ -103,7 +103,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'demo.urls'
 
 #Identificar o definir el perfil de los usuarios
-AUTH_PROFILE_MODULE = 'home.userProfile'
+AUTH_USER_MODULE = 'home.Cliente'
 
 
 # Python dotted path to the WSGI application used by Django's runserver.

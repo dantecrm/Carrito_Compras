@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from demo.apps.ventas.forms import addProductForm
-from demo.apps.ventas.models import producto, Factura, cliente
+from demo.apps.ventas.models import producto, Factura, Cliente
 from django.http import HttpResponseRedirect
 from datetime import date
 
@@ -46,13 +46,14 @@ def compra_view(request,id_prod):
     if request.user.is_authenticated():
         p = producto.objects.get(id=id_prod)
         cli = request.user
-        c = cliente()
-        c.nombre =  cli.first_name
-        c.apellidos = cli.last_name
-        if c.id == None:
-            c.save()
+        print cli.email
+        #c = cliente()
+        #c.nombre =  cli.first_name
+        #c.apellidos = cli.last_name
+        #if c.id == None:
+        #    c.save()
         f = Factura()
-        f.comprador = c
+        f.comprador = cli
         f.producto_comprado = p
         #por ahora total es igual al precio del producto
         f.total = p.precio
