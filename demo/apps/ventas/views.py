@@ -1,8 +1,11 @@
+from django.db.models.expressions import F
 from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from demo.apps.ventas.forms import addProductForm
-from demo.apps.ventas.models import producto
+from demo.apps.ventas.models import producto, Factura, cliente
 from django.http import HttpResponseRedirect
+from datetime import date
 
 
 def edit_product_view(request,id_prod):
@@ -36,7 +39,29 @@ def add_product_view(request):
 	else:
 		form = addProductForm()
 	ctx = {'form':form,'informacion':info}
-	return render_to_response('ventas/addProducto.html',ctx,context_instance=RequestContext(request)) 
+	return render_to_response('ventas/addProducto.html',ctx,context_instance=RequestContext(request))
+
+
+def compra_view(request,id_prod):
+    if request.user.is_authenticated():
+        p = producto.objects.get(id=id_prod)
+        cli = request.user
+        c = cliente()
+        c.nombre =  cli.first_name
+        c.apellidos = cli.last_name
+        if c.id == None:
+            c.save()
+        f = Factura()
+        f.comprador = c
+        f.producto_comprado = p
+        #por ahora total es igual al precio del producto
+        f.total = p.precio
+        f.fecha = date.today()
+        f.save()
+        return HttpResponseRedirect('/')
+
+
+
 """
 def add_product_view(request):
 	info = "Inicializando" 
