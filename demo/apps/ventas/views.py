@@ -5,7 +5,7 @@ from django.template import RequestContext
 from demo.apps.ventas.forms import addProductForm
 from demo.apps.ventas.models import producto, Factura, Cliente
 from django.http import HttpResponseRedirect
-from datetime import date
+from datetime import date,timedelta
 
 
 def edit_product_view(request,id_prod):
@@ -58,6 +58,7 @@ def compra_view(request,id_prod):
         #por ahora total es igual al precio del producto
         f.total = p.precio
         f.fecha = date.today()
+        f.fecha_cambio = date.today() + timedelta(days=28)
         f.save()
         return HttpResponseRedirect('/')
 
