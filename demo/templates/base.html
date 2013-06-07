@@ -32,6 +32,9 @@
                           }    
                   }
               });
+            $.get("/getcart/",function(data){
+               $("#cuerpo_carrito").html(data)
+            });
         });
     </script>
       {% block scripts %}
@@ -71,10 +74,15 @@
         <div class="span3">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
+              {%  if user.is_authenticated %}
               <li class="nav-header">Mi Carrito</li>
               <br><p align="justify">
-              	Carrito de Super
+              	Carrito de {{ user.username }}
               </p>
+              <div id="cuerpo_carrito"></div>
+               {% else %}
+                 <p>Por favor <a href="/login/">identifiquese</a></p>
+               {% endif %}
             </ul>
           </div><!--/.well -->
           <div class="well sidebar-nav">

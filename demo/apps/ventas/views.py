@@ -45,83 +45,23 @@ def add_product_view(request):
 def compra_view(request,id_prod):
     if request.user.is_authenticated():
         p = producto.objects.get(id=id_prod)
-        cli = request.user
-        print cli.email
-        #c = cliente()
-        #c.nombre =  cli.first_name
-        #c.apellidos = cli.last_name
-        #if c.id == None:
-        #    c.save()
-        f = Factura()
-        f.comprador = cli
-        f.producto_comprado = p
-        #por ahora total es igual al precio del producto
-        f.total = p.precio
-        f.fecha = date.today()
-        f.fecha_cambio = date.today() + timedelta(days=28)
-        f.save()
-        return HttpResponseRedirect('/')
+        dic = request.session["carrito_de_compra"]
+        keys = dic.keys()
+        if not p.nombre in keys:
+            dic[p.nombre] = [1,p]
+        else:
+            dic[p.nombre] = [dic[p.nombre][0]+1,p]
+        request.session['carrito_de_compras'] = dic
+        print dic
+        return HttpResponseRedirect('/productos/page/1/')
+    else:
+        return HttpResponseRedirect('/login/')
 
+def get_carrito_compras(request):
+    productos = request.session["carrito_de_compra"]
+    return render_to_response("ventas/c_compra.html",{"productos":productos},context_instance=RequestContext(request))
 
-
-"""
-def add_product_view(request):
-	info = "Inicializando" 
-	if request.user.is_authenticated():
-		if request.method == "POST":
-			form = addProductForm(request.POST,request.FILES)
-			if form.is_valid():
-				nombre = form.cleaned_data['nombre']
-				descripcion = form.cleaned_data['descripcion']
-				imagen = form.cleaned_data['imagen'] # Esto se obtiene con el request.FILES
-				precio = form.cleaned_data['precio']
-				stock = form.cleaned_data['stock']
-				p = producto()
-				if imagen: # Generamos una pequenia validacion.
-					p.imagen = imagen
-				p.nombre 		=  nombre
-				p.descripcion 	= descripcion
-				p.precio 		= precio
-				p.stock 		= stock
-				p.status = True
-				p.save() # Guardar la informacion
-				info = "Se guardo satisfactoriamente!!!!!"
-			else:
-				info = "informacion con datos incorrectos"			
-		form = addProductForm()
-		ctx = {'form':form, 'informacion':info}
-		return render_to_response('ventas/addProducto.html',ctx,context_instance=RequestContext(request))
-	else:
-		return HttpResponseRedirect('/')
-"""
-"""
-def edit_product_view(request,id_prod):
-	info = ""
-	p = producto.objects.get(id=id_prod)
-	if request.method == "POST":
-		form = addProductForm(request.POST,request.FILES)
-		if form.is_valid():
-				nombre = form.cleaned_data['nombre']
-				descripcion = form.cleaned_data['descripcion']
-				imagen = form.cleaned_data['imagen'] # Esto se obtiene con el request.FILES
-				precio = form.cleaned_data['precio']
-				stock = form.cleaned_data['stock']
-				p.nombre 		=  nombre
-				p.descripcion 	= descripcion
-				p.precio 		= precio
-				p.stock 		= stock
-				if imagen:
-					p.imagen = imagen
-				p.save() # Guardar la informacion
-				info = "Se guardo satisfactoriamente!!!!!"
-				return HttpResponseRedirect('/producto/%s'%p.id)
-	if request.method == "GET":
-		form = addProductForm(initial={
-									'nombre':p.nombre,
-									'descripcion':p.descripcion,
-									'precio':p.precio,
-									'stock':p.stock,
-			})
-	ctx = {'form':form,'info':info,'producto':p}
-	return render_to_response('ventas/editProducto.html',ctx,context_instance=RequestContext(request))
-	"""
+def borrar_carrito(request):
+    dic = {}
+    request.session["carrito_de_compra"] = dic
+    return render_to_response("ventas/c_compra.html",{"productos":dic},context_instance=RequestContext(request))

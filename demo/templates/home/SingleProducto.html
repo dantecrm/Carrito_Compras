@@ -22,7 +22,7 @@
 {% endfor %}
 <br><br>
 {% if producto.stock > 0 %}
-	<a id="comprar" class="btn btn-primary" href="#"> Comprar Producto </a>
+	<a id="comprar" class="btn btn-primary" href="#"><i class="icon-shopping-cart"></i> Añadir al carrito </a>
 {% endif %}
 <a class="btn btn-primary" href="javascript:window.history.go(-1);"> Regresar a la Lista </a>
 <form id="venta" method="POST" action="/buy/producto/{{ producto.id }}/">{% csrf_token %}
