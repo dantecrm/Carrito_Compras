@@ -3,13 +3,13 @@ from django.template import RequestContext
 from demo.apps.ventas.models import producto
 from demo.apps.home.forms import ContactForm, LoginForm,RegisterForm
 from django.core.mail import EmailMultiAlternatives # Enviamos HTML
-from django.contrib.auth.models import User
 import django
 
 from django.contrib.auth import login,logout,authenticate
 from django.http import HttpResponseRedirect
 # Paginacion en Django
 from django.core.paginator import Paginator,EmptyPage,InvalidPage
+from demo.apps.home.models import Cliente
 
 def index_view(request):
     request.session["carrito_de_compra"] = {}
@@ -79,7 +79,7 @@ def login_view(request):
 				username = form.cleaned_data['username']
 				password = form.cleaned_data['password']
 				usuario = authenticate(username=username,password=password)
-				if usuario is not None and usuario.is_active:
+				if usuario is not None:
 					login(request,usuario)
 					return HttpResponseRedirect('/')
 				else:
@@ -93,19 +93,33 @@ def logout_view(request):
 	return HttpResponseRedirect('/')
 
 def register_view(request):
-	form = RegisterForm()
-	if request.method == "POST":
-		form = RegisterForm(request.POST)
-		if form.is_valid():
-			usuario = form.cleaned_data['username']
-			email = form.cleaned_data['email']
-			password_one = form.cleaned_data['password_one']
-			password_two = form.cleaned_data['password_two']
-			u = User.objects.create_user(username=usuario,email=email,password=password_one)
-			u.save() # Guardar el objeto
-			return render_to_response('home/thanks_register.html',context_instance=RequestContext(request))
-		else:
-			ctx = {'form':form}
-			return 	render_to_response('home/register.html',ctx,context_instance=RequestContext(request))
-	ctx = {'form':form}
-	return render_to_response('home/register.html',ctx,context_instance=RequestContext(request))
+    form = RegisterForm()
+    if request.method == "POST":
+        form = RegisterForm(request.POST,request.FILES)
+        if form.is_valid():
+            usuario = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password_one = form.cleaned_data['password_one']
+            password_two = form.cleaned_data['password_two']
+            nombre = form.cleaned_data['nombre']
+            apellidos = form.cleaned_data['apellidos']
+            telefono = form.cleaned_data['telefono']
+            f_nacimiento = form.cleaned_data['fecha_nacimiento']
+            direccion = form.cleaned_data['direccion']
+            identificacion = form.cleaned_data['identificacion']
+            u = Cliente.objects.create_user(username=usuario,email=email,password=password_one)
+            u.nombre = nombre
+            u.apellidos = apellidos
+            u.telefono = telefono
+            u.fecha_nacimiento = f_nacimiento
+            u.direccion = direccion
+            u.identificacion = identificacion
+            u.ciudad = form.cleaned_data['ciudad']
+            u.avatar =  form.cleaned_data['avatar']
+            u.save() # Guardar el objeto
+            return render_to_response('home/thanks_register.html',context_instance=RequestContext(request))
+        else:
+            ctx = {'form':form}
+            return 	render_to_response('home/register.html',ctx,context_instance=RequestContext(request))
+    ctx = {'form':form}
+    return render_to_response('home/register.html',ctx,context_instance=RequestContext(request))

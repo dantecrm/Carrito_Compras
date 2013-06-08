@@ -23,6 +23,7 @@ class producto(models.Model):
     precio		= models.DecimalField(max_digits=6,decimal_places=2)
     stock		= models.IntegerField()
     categorias	= models.ManyToManyField(categoriaProducto,null=True,blank=True)
+    iva         = models.FloatField()
 
     def __unicode__(self):
         return self.nombre
@@ -31,7 +32,7 @@ class producto(models.Model):
 class Factura(models.Model):
     total = models.IntegerField()
     comprador = models.ForeignKey(settings.AUTH_USER_MODEL)
-    producto_comprado = models.ForeignKey(producto)
+    producto_comprado = models.ManyToManyField(producto)
     fecha = models.DateField()
     fecha_cambio = models.DateField(verbose_name="Fecha Maxima de retorno")
     def __unicode__(self):

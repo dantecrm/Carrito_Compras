@@ -65,3 +65,16 @@ def borrar_carrito(request):
     dic = {}
     request.session["carrito_de_compra"] = dic
     return render_to_response("ventas/c_compra.html",{"productos":dic},context_instance=RequestContext(request))
+
+def vicompra(request):
+    c_compra = request.session["carrito_de_compra"]
+    vtotal = 0
+    f = Factura.objects.count() + 1
+    for key,value in c_compra.items():
+        p_pro = value[1].precio
+        iva = value[1].iva
+        p_total = (float(p_pro)*(1+iva))*float(value[0])
+        value.append(p_total)
+        vtotal += p_total
+    fecha = date.today()
+    return render_to_response("ventas/factura.html",{"vtotal":vtotal,"productos":c_compra,"fecha":fecha,"nf":f},context_instance=RequestContext(request))

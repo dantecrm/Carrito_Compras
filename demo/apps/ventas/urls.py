@@ -6,4 +6,5 @@ urlpatterns = patterns('demo.apps.ventas.views',
     url(r'^buy/producto/(?P<id_prod>.*)/$','compra_view',name= "comprar_producto"),
     url(r'^getcart/$','get_carrito_compras',name= "get_carrito"),
     url(r'^clean-cart/$','borrar_carrito',name= "borrar_carrito"),
+    url(r'^finish-buy/$','vicompra',name= "visualizar_compra"),
 )
