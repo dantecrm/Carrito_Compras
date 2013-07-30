@@ -6,6 +6,8 @@ from demo.apps.ventas.forms import addProductForm
 from demo.apps.ventas.models import producto, Factura, Cliente
 from django.http import HttpResponseRedirect
 from datetime import date,timedelta
+#to erase
+from wkhtmltopdf.views import PDFTemplateResponse
 
 
 def edit_product_view(request,id_prod):
@@ -78,3 +80,17 @@ def vicompra(request):
         vtotal += p_total
     fecha = date.today()
     return render_to_response("ventas/factura.html",{"vtotal":vtotal,"productos":c_compra,"fecha":fecha,"nf":f},context_instance=RequestContext(request))
+#to erase
+def to_pdf(request):
+    c_compra = request.session["carrito_de_compra"] #obtengo el carrito de compras de la session
+    vtotal = 0 # valor donde acumulare el monto total a pagar por el usuario
+    f = Factura.objects.count() + 1 #obtengo el numero de facturas existentes y le sumo uno, como un preview del n de la fact.
+    for key,value in c_compra.items(): # el carrito es un diccionario, lo recorro key= nombre del producto
+                                       # el value es una lista donde la pos 0 es la cantidad y la pos 1 el producto
+        p_pro = value[1].precio # obtengo el valor del producto
+        iva = value[1].iva # obtengo el iva aplicado al producto
+        p_total = (float(p_pro)*(1+iva))*float(value[0]) # obtengo el valor total del producto x iva x cantidad
+        value.append(p_total) # agrego al final de la lista (value) del diccionario el valor total
+        vtotal += p_total # sumatoria de los valores totales
+    fecha = date.today() # obtengo la fecha de hoy
+    return PDFTemplateResponse(request,"ventas/facturapdf.html",{"vtotal":vtotal,"productos":c_compra,"fecha":fecha,"nf":f})

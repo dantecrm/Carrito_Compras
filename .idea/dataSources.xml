@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="691318540">
-    <data-source source="LOCAL" name="Django default" product="MySQL" version="5.5.31-0ubuntu0.13.04.1" jdbc-version="4.0" driver-name="MySQL-AB JDBC Driver" driver-version="mysql-connector-java-5.1.18 ( Revision: tonci.grgin@oracle.com-20110930151701-jfj14ddfq48ifkfq )" uuid="d17856de-e439-4f92-80bb-714b6bb88031">
+  <component name="DataSourceManagerImpl" format="xml" hash="2163043228">
+    <data-source source="LOCAL" name="Django default" product="MySQL" version="5.5.31-0ubuntu0.13.04.1" jdbc-version="4.0" driver-name="MySQL-AB JDBC Driver" driver-version="mysql-connector-java-5.1.18 ( Revision: tonci.grgin@oracle.com-20110930151701-jfj14ddfq48ifkfq )" uuid="07a62a4e-a559-4f25-a95d-fea50959c956">
       <extra-name-characters>#@</extra-name-characters>
       <identifier-quote-string>`</identifier-quote-string>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>

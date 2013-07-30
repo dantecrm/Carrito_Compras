@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'demo.apps.webServices.wsProductos',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'wkhtmltopdf'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -170,8 +171,13 @@ EMAIL_HOST_USER = 'alexexc2@gmail.com'
 EMAIL_HOST_PASSWORD = '*****'
 EMAIL_USE_TLS = True
 
+#to erase
 
+WKHTMLTOPDF_CMD = "/usr/bin/wkhtmltopdf"
 
+WKHTMLTOPDF_CMD_OPTIONS = {
+    'quiet':True,
+}
 
 
 

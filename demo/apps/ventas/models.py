@@ -24,6 +24,7 @@ class producto(models.Model):
     stock		= models.IntegerField()
     categorias	= models.ManyToManyField(categoriaProducto,null=True,blank=True)
     iva         = models.FloatField()
+    campo_en_blanco = models.CharField(max_length=100)
 
     def __unicode__(self):
         return self.nombre
