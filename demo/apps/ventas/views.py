@@ -46,7 +46,9 @@ def add_product_view(request):
 
 def compra_view(request,id_prod):
     if request.user.is_authenticated():
+        print request.user
         p = producto.objects.get(id=id_prod)
+        print "p: %s "  % p
         dic = request.session["carrito_de_compra"]
         keys = dic.keys()
         if not p.nombre in keys:
@@ -54,7 +56,7 @@ def compra_view(request,id_prod):
         else:
             dic[p.nombre] = [dic[p.nombre][0]+1,p]
         request.session['carrito_de_compras'] = dic
-        print dic
+        print "diccionario: %s" % dic
         return HttpResponseRedirect('/productos/page/1/')
     else:
         return HttpResponseRedirect('/login/')
@@ -70,7 +72,10 @@ def borrar_carrito(request):
 
 def vicompra(request):
     c_compra = request.session["carrito_de_compra"]
+    print "c_compra: %s" % c_compra
     vtotal = 0
+    igv = 0
+    bas_imp = 0
     f = Factura.objects.count() + 1
     for key,value in c_compra.items():
         p_pro = value[1].precio
@@ -78,8 +83,13 @@ def vicompra(request):
         p_total = (float(p_pro)*(1+iva))*float(value[0])
         value.append(p_total)
         vtotal += p_total
+    print "vtotal: %s" % vtotal
+    igv = (vtotal/1.18)*0.18
+    print "igv: %s" % igv
+    bas_imp = vtotal/1.18
+    print "Base Imponible: %s" % bas_imp
     fecha = date.today()
-    return render_to_response("ventas/factura.html",{"vtotal":vtotal,"productos":c_compra,"fecha":fecha,"nf":f},context_instance=RequestContext(request))
+    return render_to_response("ventas/factura.html",{"vtotal":vtotal,"productos":c_compra,"igv":igv,"bas_imp":bas_imp, "fecha":fecha,"nf":f},context_instance=RequestContext(request))
 #to erase
 def to_pdf(request):
     c_compra = request.session["carrito_de_compra"] #obtengo el carrito de compras de la session

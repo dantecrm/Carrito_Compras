@@ -55,7 +55,7 @@ class RegisterForm(forms.Form):
         password_one = self.cleaned_data['password_one']
         password_two = self.cleaned_data['password_two']
         if password_one == password_two:
-        	pass
+            pass
         else:
             raise forms.ValidationError('Password no coinciden')
 

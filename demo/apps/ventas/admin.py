@@ -7,4 +7,5 @@ class AdminFactura(admin.ModelAdmin):
 #admin.site.register(cliente)
 admin.site.register(producto)
 admin.site.register(categoriaProducto)
-admin.site.register(Factura,AdminFactura)
+# admin.site.register(Factura,AdminFactura)
+admin.site.register(Factura)

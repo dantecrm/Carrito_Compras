@@ -16,6 +16,7 @@ def index_view(request):
     return render_to_response('home/index.html',context_instance=RequestContext(request))
 
 def about_view(request):
+    print "----> "
     print request.session.session_key
     version = django.get_version()
     mensaje = "Esto es un mensaje desde mi vista"
@@ -24,7 +25,7 @@ def about_view(request):
 
 def productos_view(request,pagina):
 	lista_prod = producto.objects.filter(status=True) # Select * from ventas_productos where status = True
-	paginator = Paginator(lista_prod,5) # Cuantos productos quieres por pagina? = 3
+	paginator = Paginator(lista_prod,1) # Cuantos productos quieres por pagina? = 3
 	try:
 		page = int(pagina)
 	except:
@@ -66,7 +67,6 @@ def contacto_view(request):
 		formulario = ContactForm()
 	ctx = {'form':formulario,'email':email,'titulo':titulo,'texto':texto,'info_enviado':info_enviado}
 	return render_to_response('home/contacto.html',ctx,context_instance=RequestContext(request))
-
 
 def login_view(request):
 	mensaje = ""

@@ -11,12 +11,14 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'demo',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': '12345',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.path.join(os.path.dirname(__file__),'demo.db'),                      # Or path to database file if using sqlite3.
+        # 'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        # 'NAME': 'demo',                      # Or path to database file if using sqlite3.
+        # 'USER': 'root',                      # Not used with sqlite3.
+        # 'PASSWORD': '12345',                  # Not used with sqlite3.
+        # 'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        # 'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -125,13 +127,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'south',
+    # 'south',
     'demo.apps.ventas',
-    'demo.apps.home', 
+    'demo.apps.home',
     'demo.apps.webServices.wsProductos',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    'wkhtmltopdf'
+    'wkhtmltopdf',
 )
 
 # A sample logging configuration. The only tangible logging

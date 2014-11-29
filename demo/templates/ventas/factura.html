@@ -3,7 +3,7 @@
     <link rel="stylesheet" type="text/css" href="/media/css/style.css" />
 {% endblock %}
 {% block content %}
-	<div id="page-wrap">
+	<div id="page-wrap" style="margin-left:14cm">
 
 		<p id="header">Tienda Online</p>
 		
@@ -41,7 +41,15 @@
                     <td class="meta-head">Monto Total</td>
                     <td><div class="due">${{ vtotal }}</div></td>
                 </tr>
-
+                <tr>
+                    <td class="meta-head">IGV</td>
+                    <td><div class="due">${{ igv }}</div></td>
+                </tr>
+                <tr>
+                    <td class="meta-head">Base Imponible</td>
+                    <td><div class="due">${{ bas_imp }}</div></td>
+                </tr>
+ 
             </table>
 		
 		</div>
